@@ -31,15 +31,15 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request->all());
-
         // Order::create($request->validated());
         Order::create([
             'itemId'=>$request->itemId,
             'email'=>' ',
             'status'=>'draft',
         ]);
-        $item =  Order::where('itemId',$request->id)->get();
+        // $item =  Order::where('itemId',$request->itemId)->first();
+        // dd($request->all(), $item->item->first()->name );
+       return back();
     }
 
     /**

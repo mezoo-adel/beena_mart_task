@@ -28,16 +28,15 @@
         Welcome to Beena Mart
     </h1>
     <section class="row products ">
-        <div  class="col-12 col-md-4 p-2 d-flex align-items-stretch" v-for="element in items" >
+        <div  class="col-12 col-md-4 p-2 d-flex align-items-stretch" v-for="element in items" :key="element.id">
             <div class="card border border-info card-body">
-                <form id="submitOrder" action="/api/orders" method="post">
-                    <input type="hidden" name="itemId" :value="element.id">
-
+                <form :id="element.id" action="/api/orders" method="post">
+                    <input type="hidden" name="itemId" v-model="element.id">
                 </form>
                 <h5 class=" card-header  text-center">{{element.name}}</h5>
                 <div class=" d-flex justify-content-around align-items-center mt-2">
                     <p class="h6 m-0">{{element.price}} $</p>
-                    <button type="submit" form="submitOrder" class=" btn btn-primary alert-primary rounded w-75 ">Add to
+                    <button type="submit" :form="element.id" class=" btn btn-primary alert-primary rounded w-75 ">Add to
                         cart</button>
                 </div>
             </div>

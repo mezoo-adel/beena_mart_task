@@ -12,6 +12,6 @@ class Order extends Model
         'itemId', 'email','status',
     ];
     function item(){
-      return $this->hasMany(Item::class,'itemId');
+      return $this->hasMany(Item::class,'id','itemId');
     }
 }
