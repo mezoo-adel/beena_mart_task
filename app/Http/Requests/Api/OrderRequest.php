@@ -24,7 +24,6 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'itemId'=>'int|required',
             'email' => 'required|email',
             'status'=>'in:draft,confirmed'
         ];
@@ -34,7 +33,6 @@ class OrderRequest extends FormRequest
     {
 
         throw new HttpResponseException(response()->json([
-
             'success' => false,
             'errors' => $validator->errors(),
             'status_code' => 404,

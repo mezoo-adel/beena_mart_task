@@ -32,14 +32,20 @@ class OrdersController extends Controller
     {
         //
         // Order::create($request->validated());
-        Order::create([
-            'itemId'=>$request->itemId,
-            'email'=>' ',
-            'status'=>'draft',
+        //  dd($request->all() );
+
+        $order = Order::create([
+            'itemId' => $request->itemId,
+            'email' => ' ',
+            'status' => 'draft',
         ]);
         // $item =  Order::where('itemId',$request->itemId)->first();
         // dd($request->all(), $item->item->first()->name );
-       return back();
+        return response()->json([
+            'success' => true,
+            'message' => 'Order added Successfully',
+            'data' => $order,
+        ]);
     }
 
     /**
@@ -61,9 +67,15 @@ class OrdersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(OrderRequest $request, Order $order)
     {
         //
+       $order->update($request->validated());
+        return response()->json([
+        'success' => true,
+        'message' => 'Email Updated Successfully',
+        'data' => $order,
+    ]);
     }
 
     /**
