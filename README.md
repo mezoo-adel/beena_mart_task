@@ -7,15 +7,15 @@ It's a simple Laravel Project contains VUE framework inside html page, just page
 
 ## How to run the project ??
 
-<pre>
 after you download/clone the project, you should follow these steps: </br>
+<pre>
     1- go to project directory and open terminal/cmd. </br>
     2- copy the .env.example file and rename it to .env </br>
     3- run the following commands: </br>
         - composer update. </br>
         - php artisan key:generate. </br>
         - php artisan migrate --seed. "enter yes to create the database" </br>
-    4-run php artisan serve </br>
+    4- run php artisan serve </br>
     5- "optional" if you want to create 5 more default products using factory: </br>
         - run php artisan tinker </br>
         - \App\Models\Item::factory(5)->create(). </br>
