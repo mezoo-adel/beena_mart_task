@@ -5,9 +5,21 @@
 
 It's a simple Laravel Project contains VUE framework inside html page, just page gets,create data to database by simple API.
 
-## Learning Laravel
+## How to run the project ??
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+after you download/clone the project, you should follow these steps:
+    1- go to project directory and open terminal/cmd.
+    2- copy the .env.example file and rename it to .env.
+    3- run the following commands:
+        - composer update.
+        - php artisan key:generate.
+        - php artisan migrate --seed. "enter yes to create the database"
+    4-run php artisan serve
+    5- "optional" if you want to create 5 more default products using factory:
+        - run php artisan tinker
+        - \App\Models\Item::factory(5)->create().
+        - press ctrl+c to exit tinker.
+        
 
 You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
