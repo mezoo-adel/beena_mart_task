@@ -7,10 +7,10 @@ It's a simple Laravel Project contains VUE framework inside html page, just page
 
 ## How to run the project ??
 
-after you download/clone the project, you should follow these steps:
-    1- go to project directory and open terminal/cmd.
-    2- copy the .env.example file and rename it to .env.
-    3- run the following commands:
+after you download/clone the project, you should follow these steps: </br>
+    1- go to project directory and open terminal/cmd. </br>
+    2- copy the .env.example file and rename it to .env </br>
+    3- run the following commands: </br>
         - composer update.
         - php artisan key:generate.
         - php artisan migrate --seed. "enter yes to create the database"
