@@ -15,6 +15,76 @@
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(73, 70, 214, 0.39);
         }
+
+        #toaster {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #198754;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 30px;
+            font-size: 17px;
+        }
+
+        #toaster.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+
+            to {
+                top: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadein {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+
+            to {
+                top: 30px;
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeout {
+            from {
+                top: 30px;
+                opacity: 1;
+            }
+
+            to {
+                top: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                top: 30px;
+                opacity: 1;
+            }
+
+            to {
+                top: 0;
+                opacity: 0;
+            }
+        }
     </style>
     <!-- Vue.js -->
     <script src="https://unpkg.com/vue@next"></script>
@@ -30,10 +100,14 @@
         <h1 class="text-center text-dark font-italic m-3" style="text-decoration: underline;">
             Welcome to Beena Mart
         </h1>
-        <h5 class="alert alert-success my-2" v-if='message' style="position: sticky; top: 16px; z-index: 1;">{{message}}
-        </h5>
-        <h5 class="alert alert-danger my-2" v-if='errors' style="position: sticky; top: 16px; z-index: 1;">{{errors}}
-        </h5>
+
+        <h3 id="toaster">{{message}}</h3>
+        <div class="alert alert-danger my-2 alert-dismissible fade show" v-if='errors' style="position: sticky; top: 16px; z-index: 1;" role="alert">
+            <h5 >{{errors}}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
         <section class="row">
             <div class="col-12 col-md-4 p-2 d-flex align-items-stretch" v-for="element in items" :key="element.id">
                 <div class="card border border-info card-body">
@@ -43,19 +117,19 @@
                     <h5 class=" card-header  text-center">{{element.name}}</h5>
                     <div class=" d-flex justify-content-around align-items-center mt-2">
                         <p class="h6 m-0">{{element.price}} $</p>
-                        <button type="submit" data-bs-toggle="modal" href="#exampleModalToggle" :form="element.id"
+                        <button type="submit" data-bs-toggle="modal" data-bs-target="#showConfirmOrderModal" :form="element.id"
                             class=" btn btn-primary alert-primary rounded w-75 ">Add to
                             cart</button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModalToggle" tabindex="-1" data-bs-keyboard="false"
-                data-bs-backdrop="static">
+            <div class="modal fade" id="showConfirmOrderModal" tabindex="-1" data-bs-keyboard="false"
+                data-bs-backdrop="static" aria-hidden="true" aria-labelledby="staticBackdropLabel">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Confirm Your Order</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form @submit.prevent="confirmOrder" class="d-flex flex-column">
@@ -93,7 +167,11 @@
                 }
             },
             methods: {
-
+                showToaster: function () {
+                    var x = document.getElementById("toaster");
+                    x.classList.add("show");
+                    setTimeout(function () { x.classList.remove("show"); }, 3000);
+                },
                 draftOrder: function (e) {
                     // let id = document.querySelector('input')
                     axios.post('/api/orders', { "itemId": e })
@@ -118,17 +196,18 @@
                             if (status == 404) {
                                 this.errors = response.data.errors.email[0];
                             } else {
-
                                 this.message = response.data.message;
-                                window.location.reload();
-
+                                myModal = document.querySelector('.btn-close');
+                                myModal.click();
+                                this.showToaster();
                             }
                         }).catch(error => {
-                            console.log(error.data);
-                            this.errors = error.response.data;
+                            console.log(error);
+                            this.errors = error;
                         })
 
                 },
+
             },// close methods:
             mounted() {
                 axios.get('/api/items')
@@ -137,35 +216,13 @@
                         console.log("Object: ", this.items);
                     }).catch(error => {
                         console.log(error);
-                        this.errors = error.response.data;
+                        this.errors = error;
                     })
             },
         });//close vue Object
 
         showItems.mount('.products')
     </script>
-    <!-- <script>
-        window.addEventListener('load', function () {
-            console.log(document.body);
-            fetch('/api/items').then((res) => res.json()).then((res) => {
-                console.log("hre'es the res ", res);
-                res.data.items.forEach(element => {
-
-                    document.querySelector(".products").innerHTML += `
-        <div class="col-12 col-md-4 p-2 d-flex align-items-stretch">
-            <div class="card border border-info card-body">
-                <h5 class=" card-header  text-center">${element.name}</h5>
-                <div class=" d-flex justify-content-around align-items-center mt-2">
-                    <p class="h6 m-0">${element.price} $</p> <button class=" btn  btn-primary alert-primary rounded w-75 ">Add to cart</button>
-                </div>
-            </div>
-
-        </div>
-    `;
-                });
-            });
-        });
-    </script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
 
 </html>
