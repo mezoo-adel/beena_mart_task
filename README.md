@@ -7,6 +7,7 @@ It's a simple Laravel Project contains VUE framework inside html page, just page
 
 ## How to run the project ??
 
+<pre>
 after you download/clone the project, you should follow these steps: </br>
     1- go to project directory and open terminal/cmd. </br>
     2- copy the .env.example file and rename it to .env </br>
@@ -20,7 +21,7 @@ after you download/clone the project, you should follow these steps: </br>
         - \App\Models\Item::factory(5)->create(). </br>
         - press ctrl+c to exit tinker. </br>
         
-
+</pre>
 You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
