@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ItemCollection;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
 
@@ -14,7 +15,7 @@ class ItemsController extends Controller
     public function index()
     {
         $items = Item::all();
-        return ItemResource::collection($items); //JSON DAtA in Array Called Data Wraped in your fav name
+        return new ItemCollection($items); //JSON DAtA in Array Called Data Wraped in your fav name
     }
 
     /**
