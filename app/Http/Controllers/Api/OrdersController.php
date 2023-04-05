@@ -8,9 +8,7 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-/**
- * Summary of OrdersController
- */
+
 class OrdersController extends Controller
 {
 
@@ -27,22 +25,15 @@ class OrdersController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(OrderRequest $request, Order $order)
     {
-        //
+
         $order->update($request->validated());
         $this->dataAddedSuccessfully($order, 'Email Updated Successfully');
     }
 
-    /**
-     * Summary of dataAddedSuccessfully
-     * @param \Illuminate\Database\Eloquent\Model $order
-     * @param string $message
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function dataAddedSuccessfully(Model $order, String $message)
     {
         return response()->json([
