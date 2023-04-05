@@ -30,8 +30,7 @@ class ItemsSeeder extends Seeder
         ],
         ];
 
-        foreach($items as $item){
-            Item::create($item);
-        }
+        Item::upsert($items,['name'],['price']);
+
     }
 }

@@ -5,63 +5,26 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\OrderRequest;
 use App\Models\Order;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
+/**
+ * Summary of OrdersController
+ */
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
-        // Order::create($request->validated());
-        //  dd($request->all() );
 
         $order = Order::create([
-            'itemId' => $request->itemId,
-            'email' => ' ',
-            'status' => 'draft',
+            'item_id' => $request->itemId,
         ]);
-        // $item =  Order::where('itemId',$request->itemId)->first();
-        // dd($request->all(), $item->item->first()->name );
-        return response()->json([
-            'success' => true,
-            'message' => 'Order added Successfully',
-            'data' => $order,
-        ]);
-    }
+        $this->dataAddedSuccessfully($order, 'Order added Successfully');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
     }
 
     /**
@@ -70,19 +33,22 @@ class OrdersController extends Controller
     public function update(OrderRequest $request, Order $order)
     {
         //
-       $order->update($request->validated());
-        return response()->json([
-        'success' => true,
-        'message' => 'Email Updated Successfully',
-        'data' => $order,
-    ]);
+        $order->update($request->validated());
+        $this->dataAddedSuccessfully($order, 'Email Updated Successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Summary of dataAddedSuccessfully
+     * @param \Illuminate\Database\Eloquent\Model $order
+     * @param string $message
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Order $order)
+    public function dataAddedSuccessfully(Model $order, String $message)
     {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'data' => $order,
+        ]);
     }
 }

@@ -14,7 +14,8 @@ after you download/clone the project, you should follow these steps: </br>
     3- run the following commands: </br>
         - composer update. </br>
         - php artisan key:generate. </br>
-        - php artisan migrate --seed. "enter yes to create the database" </br>
+        - php artisan migrate. "make sure that DB name is in .env file, enter yes to create the database" </br>
+        - php artisan db:seed </br>
     4- finally run "php artisan serve"</br>
     5- "optional" if you want to create 5 more default products using factory: </br>
         - run php artisan tinker </br>

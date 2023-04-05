@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('itemId');
-            $table->string('email');
-            $table->enum('status',['draft','confirmed']);
+            $table->foreignId('item_id')->constrained('items');
+            $table->string('email')->nullable();
+            $table->enum('status',['draft','confirmed'])->default('draft');
             $table->timestamps();
         });
     }

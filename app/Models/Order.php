@@ -9,9 +9,11 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'itemId', 'email','status',
+        'item_id', 'email', 'status',
     ];
-    function item(){
-      return $this->hasMany(Item::class,'id','itemId');
+    protected $guarded;
+    public function item()
+    {
+        return $this->hasMany(Item::class, 'id', 'item_id');
     }
 }

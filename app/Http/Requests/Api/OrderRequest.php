@@ -25,7 +25,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'status'=>'in:draft,confirmed'
+            'status'=>'required|in:draft,confirmed'
         ];
     }
 
@@ -35,7 +35,7 @@ class OrderRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'errors' => $validator->errors(),
-            'status_code' => 404,
+            'status_code' => 400,
         ]));
 
     }
