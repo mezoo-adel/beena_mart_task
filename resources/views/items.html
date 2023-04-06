@@ -29,7 +29,7 @@
             z-index: 1;
             left: 50%;
             top: 30px;
-            font-size: 17px;
+            font-size: 18px;
         }
 
         #toaster.show {
@@ -102,11 +102,13 @@
         </h1>
 
         <h3 id="toaster">{{message}}</h3>
-        <div class="alert alert-danger my-2 alert-dismissible fade show" v-if='errors' style="position: sticky; top: 16px; z-index: 1;" role="alert">
-            <h5 >{{errors}}
+
+        <div class="alert alert-danger my-2 alert-dismissible fade show" v-if='errors'
+            style="position: sticky; top: 16px; z-index: 1;" role="alert">
+            <h5>{{errors}}
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+        </div>
 
         <section class="row">
             <div class="col-12 col-md-4 p-2 d-flex align-items-stretch" v-for="element in items" :key="element.id">
@@ -117,8 +119,8 @@
                     <h5 class=" card-header  text-center">{{element.name}}</h5>
                     <div class=" d-flex justify-content-around align-items-center mt-2">
                         <p class="h6 m-0">{{element.price}} $</p>
-                        <button type="submit" data-bs-toggle="modal" data-bs-target="#showConfirmOrderModal" :form="element.id"
-                            class=" btn btn-primary alert-primary rounded w-75 ">Add to
+                        <button type="submit" data-bs-toggle="modal" data-bs-target="#showConfirmOrderModal"
+                            :form="element.id" class=" btn btn-primary alert-primary rounded w-75 ">Add to
                             cart</button>
                     </div>
                 </div>
@@ -129,7 +131,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Confirm Your Order</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            <button id="close_modal" type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form @submit.prevent="confirmOrder" class="d-flex flex-column">
@@ -176,13 +178,9 @@
                     // let id = document.querySelector('input')
                     axios.post('/api/orders', { "itemId": e })
                         .then(response => {
-                            console.log(response.data);
                             this.toUpdate = response.data.data.id;
-                            console.log(this.toUpdate);
-                            //    this.message = response.data.message;
                         }).catch(error => {
-                            console.log(error.response.data.data);
-                            this.errors = error.response.data.email;
+                            this.errors = error.response.data;
 
                         });
 
@@ -191,18 +189,17 @@
                 confirmOrder: function () {
                     axios.patch(`/api/orders/${this.toUpdate}`, { "email": this.email, "status": "confirmed", })
                         .then(response => {
-                            console.log(response.data);
                             status = response.data.status_code;
-                            if (status == 404) {
+                            if (status == 400) {
                                 this.errors = response.data.errors.email[0];
                             } else {
                                 this.message = response.data.message;
-                                myModal = document.querySelector('.btn-close');
+                                let myModal = document.querySelector('#close_modal');
                                 myModal.click();
+                                this.errors='';
                                 this.showToaster();
                             }
                         }).catch(error => {
-                            console.log(error);
                             this.errors = error;
                         })
 
@@ -213,9 +210,7 @@
                 axios.get('/api/items')
                     .then(response => {
                         this.items = response.data.data.items
-                        console.log("Object: ", this.items);
                     }).catch(error => {
-                        console.log(error);
                         this.errors = error;
                     })
             },

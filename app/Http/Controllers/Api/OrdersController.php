@@ -17,11 +17,10 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-
         $order = Order::create([
             'item_id' => $request->itemId,
         ]);
-        $this->dataAddedSuccessfully($order, 'Order added Successfully');
+      return  $this->dataAddedSuccessfully($order, 'Order added Successfully');
 
     }
 
@@ -30,7 +29,7 @@ class OrdersController extends Controller
     {
 
         $order->update($request->validated());
-        $this->dataAddedSuccessfully($order, 'Email Updated Successfully');
+      return  $this->dataAddedSuccessfully($order, 'Email Updated Successfully');
     }
 
 
